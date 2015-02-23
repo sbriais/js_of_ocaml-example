@@ -12,6 +12,12 @@ build:
 	ocamlbuild -use-ocamlfind -plugin-tag 'package(js_of_ocaml.ocamlbuild)' \
 						 src/jsonExample.js
 
+%.byte: %.ml
+	ocamlfind ocamlc -package js_of_ocaml -package js_of_ocaml.syntax -syntax camlp4o -linkpkg -o $@ $<
+
+%.js: %.byte
+	js_of_ocaml -o $@ $<
+
 clean:
 	ocamlbuild -clean
 
